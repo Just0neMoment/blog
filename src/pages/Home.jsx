@@ -1,5 +1,7 @@
 import React from "react";
 
+//Todo : 이쁘게 디자인하기
+
 function Home() {
   return (
     <div>
