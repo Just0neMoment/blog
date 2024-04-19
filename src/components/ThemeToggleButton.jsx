@@ -2,6 +2,8 @@ import React from "react";
 
 import { Switch } from "@nextui-org/react";
 
+// Todo : 직접 DOM을 조작하지 않고, Dark, Light모드 구현하기
+
 function ThemeToggleButton() {
   function ThemeToggle() {
     const htmlEl = document.querySelector("html");
@@ -10,14 +12,16 @@ function ThemeToggleButton() {
     const enabledDarkMode = htmlEl.classList.contains("dark");
     if (enabledDarkMode) {
       htmlEl.classList.remove("dark");
+      localStorage.setItem('Theme', 'light');
     } else {
       htmlEl.classList.add("dark");
+      localStorage.setItem('Theme', 'dark');
     }
   }
 
   return (
     <Switch
-      defaultSelected
+      defaultSelected={localStorage.getItem("Theme") === "dark"}
       size="md"
       color="success"
       startContent={<SunIcon />}
