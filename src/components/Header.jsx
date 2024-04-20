@@ -15,6 +15,7 @@ import LoginModal from "./modals/LoginModal.jsx";
 import ThemeToggleButton from "./ThemeToggleButton.jsx";
 
 // Todo : Link안에 삼항연산자 줄일 수 있다다면 줄이기
+//        Login이 되어있는 상태라면 보여줄 layout 바꾸기
 
 function Header() {
   useEffect(() => {

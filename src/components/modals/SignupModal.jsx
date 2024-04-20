@@ -1,9 +1,10 @@
 import React, { useMemo, useState } from "react";
 
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../firebase/firebase";
+
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
-import { auth } from "../../firebase/firebase";
 
 import {
   Modal,
@@ -15,13 +16,10 @@ import {
   Input,
 } from "@nextui-org/react";
 
-import { createUserWithEmailAndPassword } from "firebase/auth";
-
 // Todo : 다른 파일로 로직 분리하기
 //        왜 import로 가져오면 apikey가 안 나오는지 (가져오고 console.log 찍으면 나오는데 onSubmit에선 apikey를 못불러옴.)
 
 function SignupModal(props) {
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -84,59 +82,63 @@ function SignupModal(props) {
   };
 
   return (
-    <Modal isOpen={props.isSign} onOpenChange={props.changeSign}>
+    <>
       <ToastContainer
         position="bottom-right"
         theme={localStorage.getItem("Theme")}
       />
-      <ModalContent>
-        {(onClose) => (
-          <>
-            <ModalHeader className="flex gap-1">
-              <h2 className="text-2xl font-bold text-primary">Sign Up</h2>
-            </ModalHeader>
-            <ModalBody>
-              <Input
-                type="email"
-                label="Email"
-                onChange={handleEmail}
-                isInvalid={isInvalidEmail}
-                color={isInvalidEmail ? "danger" : "default"}
-                errorMessage={isInvalidEmail && "유요한 이메일을 입력해주세요."}
-              />
-              <Input
-                type="password"
-                label="Password"
-                onChange={handlePassword}
-                isInvalid={isInvalidPassword}
-                color={isInvalidPassword ? "danger" : "default"}
-                errorMessage={
-                  isInvalidPassword && "8자 이상, 특수문자를 포함해주세요."
-                }
-              />
-              <Input
-                type="password"
-                label="Confirm Password"
-                onChange={handleConfirmPassword}
-                isInvalid={isInvalidConfirmPassword}
-                color={isInvalidConfirmPassword ? "danger" : "default"}
-                errorMessage={
-                  isInvalidConfirmPassword && "비밀번호가 일치하지 않습니다."
-                }
-              />
-            </ModalBody>
-            <ModalFooter>
-              <Button color="danger" variant="light" onPress={onClose}>
-                Close
-              </Button>
-              <Button color="primary" onClick={onSubmit}>
-                Sign Up
-              </Button>
-            </ModalFooter>
-          </>
-        )}
-      </ModalContent>
-    </Modal>
+      <Modal isOpen={props.isSign} onOpenChange={props.changeSign}>
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex gap-1">
+                <h2 className="text-2xl font-bold text-primary">Sign Up</h2>
+              </ModalHeader>
+              <ModalBody>
+                <Input
+                  type="email"
+                  label="Email"
+                  onChange={handleEmail}
+                  isInvalid={isInvalidEmail}
+                  color={isInvalidEmail ? "danger" : "default"}
+                  errorMessage={
+                    isInvalidEmail && "유요한 이메일을 입력해주세요."
+                  }
+                />
+                <Input
+                  type="password"
+                  label="Password"
+                  onChange={handlePassword}
+                  isInvalid={isInvalidPassword}
+                  color={isInvalidPassword ? "danger" : "default"}
+                  errorMessage={
+                    isInvalidPassword && "8자 이상, 특수문자를 포함해주세요."
+                  }
+                />
+                <Input
+                  type="password"
+                  label="Confirm Password"
+                  onChange={handleConfirmPassword}
+                  isInvalid={isInvalidConfirmPassword}
+                  color={isInvalidConfirmPassword ? "danger" : "default"}
+                  errorMessage={
+                    isInvalidConfirmPassword && "비밀번호가 일치하지 않습니다."
+                  }
+                />
+              </ModalBody>
+              <ModalFooter>
+                <Button color="danger" variant="light" onPress={onClose}>
+                  Close
+                </Button>
+                <Button color="primary" onClick={onSubmit}>
+                  Sign Up
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
+    </>
   );
 }
 
