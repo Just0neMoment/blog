@@ -4,6 +4,10 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --toastify-font-family: Pretendard !important;
+}
+
 html {
   font-family: Pretendard !important;
 }
