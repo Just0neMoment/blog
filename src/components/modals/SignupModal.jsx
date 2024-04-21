@@ -1,10 +1,9 @@
 import React, { useMemo, useState } from "react";
 
+import { toast } from "react-toastify";
+
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase/firebase";
-
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 import {
   Modal,
@@ -83,10 +82,6 @@ function SignupModal(props) {
 
   return (
     <>
-      <ToastContainer
-        position="bottom-right"
-        theme={localStorage.getItem("Theme")}
-      />
       <Modal isOpen={props.isSign} onOpenChange={props.changeSign}>
         <ModalContent>
           {(onClose) => (

@@ -1,6 +1,12 @@
 import React, { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+import { useRecoilState } from "recoil";
+import { isLoginStatState } from "../store.js";
+
 import {
   Button,
   Navbar,
@@ -8,20 +14,22 @@ import {
   NavbarContent,
   NavbarItem,
   useDisclosure,
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
+  Avatar,
 } from "@nextui-org/react";
 
 import SignupModal from "./modals/SignupModal.jsx";
 import LoginModal from "./modals/LoginModal.jsx";
 import ThemeToggleButton from "./ThemeToggleButton.jsx";
+import { auth } from "../firebase/firebase.js";
 
 // Todo : Link안에 삼항연산자 줄일 수 있다다면 줄이기
-//        Login이 되어있는 상태라면 보여줄 layout 바꾸기
 
 function Header() {
-  useEffect(() => {
-    let Theme = localStorage.getItem("Theme");
-    document.querySelector("html").classList.add(Theme);
-  }, []);
+  const [isLoginStat, setIsLoginStat] = useRecoilState(isLoginStatState);
 
   const location = useLocation();
 
@@ -39,6 +47,13 @@ function Header() {
 
   return (
     <>
+      <ToastContainer
+        position="bottom-right"
+        theme={localStorage.getItem("Theme")}
+        autoClose={3000}
+        pauseOnFocusLoss={true}
+        pauseOnHover={true}
+      />
       <LoginModal
         onLogin={onLogin}
         isLogin={isLogin}
@@ -87,16 +102,46 @@ function Header() {
           <NavbarItem>
             <ThemeToggleButton />
           </NavbarItem>
-          <NavbarItem>
-            <Button color="primary" variant="ghost" size="md" onPress={onLogin}>
-              로그인
-            </Button>
-          </NavbarItem>
-          <NavbarItem>
-            <Button color="danger" variant="light" size="md" onPress={onSign}>
-              회원가입
-            </Button>
-          </NavbarItem>
+          {isLoginStat ? (
+            <Dropdown>
+              <DropdownTrigger>
+                <Avatar name="Junior" />
+              </DropdownTrigger>
+              <DropdownMenu aria-label="Static Actions">
+                <DropdownItem key="profile">프로필 관리</DropdownItem>
+                <DropdownItem
+                  key="delete"
+                  className="text-danger"
+                  color="danger"
+                >
+                  Delete file
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
+          ) : (
+            <>
+              <NavbarItem>
+                <Button
+                  color="primary"
+                  variant="ghost"
+                  size="md"
+                  onPress={onLogin}
+                >
+                  로그인
+                </Button>
+              </NavbarItem>
+              <NavbarItem>
+                <Button
+                  color="danger"
+                  variant="light"
+                  size="md"
+                  onPress={onSign}
+                >
+                  회원가입
+                </Button>
+              </NavbarItem>
+            </>
+          )}
         </NavbarContent>
       </Navbar>
     </>

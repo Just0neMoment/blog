@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 
+import { toast } from "react-toastify";
+
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase/firebase";
 
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { useRecoilState } from "recoil";
+import { isLoginStatState } from "../../store.js";
 
 import {
   Modal,
@@ -20,6 +22,8 @@ function LoginModal(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const [isLoginStat, setIsLoginStat] = useRecoilState(isLoginStatState);
+
   const handleEmail = (e) => {
     setEmail(e.target.value);
   };
@@ -29,13 +33,13 @@ function LoginModal(props) {
   };
 
   const onSubmit = async () => {
-
     if (!email || !password) {
       return toast.error("모든 항목을 입력해주세요.");
     }
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
+      setIsLoginStat(auth.currentUser);
       return toast.success("로그인이 완료되었습니다.");
     } catch (error) {
       return toast.error(error.message);
@@ -44,10 +48,6 @@ function LoginModal(props) {
 
   return (
     <>
-      <ToastContainer
-        position="bottom-right"
-        theme={localStorage.getItem("Theme")}
-      />
       <Modal isOpen={props.isLogin} onOpenChange={props.changeLogin}>
         <ModalContent>
           {(onClose) => (
@@ -57,7 +57,11 @@ function LoginModal(props) {
               </ModalHeader>
               <ModalBody>
                 <Input type="text" label="Username" onChange={handleEmail} />
-                <Input type="password" label="Password" onChange={handlePassword} />
+                <Input
+                  type="password"
+                  label="Password"
+                  onChange={handlePassword}
+                />
               </ModalBody>
               <ModalFooter>
                 <Button color="danger" variant="light" onPress={onClose}>
