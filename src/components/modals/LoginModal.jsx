@@ -22,8 +22,6 @@ function LoginModal(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const [isLoginStat, setIsLoginStat] = useRecoilState(isLoginStatState);
-
   const handleEmail = (e) => {
     setEmail(e.target.value);
   };
@@ -39,7 +37,6 @@ function LoginModal(props) {
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      setIsLoginStat(auth.currentUser);
       return toast.success("로그인이 완료되었습니다.");
     } catch (error) {
       return toast.error(error.message);
@@ -56,7 +53,7 @@ function LoginModal(props) {
                 <h2 className="text-2xl font-bold text-primary">Login</h2>
               </ModalHeader>
               <ModalBody>
-                <Input type="text" label="Username" onChange={handleEmail} />
+                <Input type="email" label="Email" onChange={handleEmail} />
                 <Input
                   type="password"
                   label="Password"

@@ -1,11 +1,14 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Link, useLocation } from "react-router-dom";
 
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import { useRecoilState } from "recoil";
 import { isLoginStatState } from "../store.js";
+
+import { signOut } from "firebase/auth";
+import { auth } from "../firebase/firebase.js";
 
 import {
   Button,
@@ -24,7 +27,6 @@ import {
 import SignupModal from "./modals/SignupModal.jsx";
 import LoginModal from "./modals/LoginModal.jsx";
 import ThemeToggleButton from "./ThemeToggleButton.jsx";
-import { auth } from "../firebase/firebase.js";
 
 // Todo : Link안에 삼항연산자 줄일 수 있다다면 줄이기
 
@@ -45,14 +47,23 @@ function Header() {
     onOpenChange: changeSign,
   } = useDisclosure();
 
+  const onSignOut = async () => {
+    try {
+      await signOut(auth);
+      return toast.success("로그아웃 되었습니다.");
+    } catch (error) {
+      return toast.error(error.code);
+    }
+  };
+
   return (
     <>
       <ToastContainer
         position="bottom-right"
         theme={localStorage.getItem("Theme")}
         autoClose={3000}
-        pauseOnFocusLoss={true}
-        pauseOnHover={true}
+        pauseOnFocusLoss={false}
+        pauseOnHover={false}
       />
       <LoginModal
         onLogin={onLogin}
@@ -105,16 +116,17 @@ function Header() {
           {isLoginStat ? (
             <Dropdown>
               <DropdownTrigger>
-                <Avatar name="Junior" />
+                <Avatar name="Junior" className="hover:cursor-pointer hover:scale-[0.9]" />
               </DropdownTrigger>
               <DropdownMenu aria-label="Static Actions">
                 <DropdownItem key="profile">프로필 관리</DropdownItem>
                 <DropdownItem
-                  key="delete"
+                  key="logout"
                   className="text-danger"
                   color="danger"
+                  onPress={onSignOut}
                 >
-                  Delete file
+                  로그아웃
                 </DropdownItem>
               </DropdownMenu>
             </Dropdown>

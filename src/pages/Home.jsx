@@ -152,6 +152,7 @@ function Home() {
             "AutoHotKey",
             "React",
             "Redux",
+            "Recoil",
             "Firebase",
             "Figma",
             "Vultr(IIS)",
