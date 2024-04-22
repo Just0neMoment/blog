@@ -15,9 +15,6 @@ import {
   Input,
 } from "@nextui-org/react";
 
-// Todo : 
-//        왜 import로 가져오면 apikey가 안 나오는지 (가져오고 console.log 찍으면 나오는데 onSubmit에선 apikey를 못불러옴.)
-
 function SignupModal(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

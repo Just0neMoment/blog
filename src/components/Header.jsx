@@ -28,8 +28,6 @@ import SignupModal from "./modals/SignupModal.jsx";
 import LoginModal from "./modals/LoginModal.jsx";
 import ThemeToggleButton from "./ThemeToggleButton.jsx";
 
-// Todo : Link안에 삼항연산자 줄일 수 있다다면 줄이기
-
 function Header() {
   const [isLoginStat, setIsLoginStat] = useRecoilState(isLoginStatState);
 

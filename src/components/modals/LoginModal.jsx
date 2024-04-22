@@ -5,9 +5,6 @@ import { toast } from "react-toastify";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase/firebase";
 
-import { useRecoilState } from "recoil";
-import { isLoginStatState } from "../../store.js";
-
 import {
   Modal,
   ModalContent,
