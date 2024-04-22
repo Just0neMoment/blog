@@ -14,7 +14,7 @@ import Post from "./pages/Post.jsx";
 import NotFound from "./pages/NotFound.jsx";
 
 // todo : Header.jsx / ThemeToggleButton.jsx / SignupModal.jsx
-//        새로고침 했을 때 로그인 상태 유지 안 됨 해결하기
+//        post 기능 구현하기
 
 function App() {
   const [isLoginStat, setIsLoginStat] = useRecoilState(isLoginStatState);
