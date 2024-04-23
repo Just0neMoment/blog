@@ -17,6 +17,10 @@ export default {
           DEFAULT: "#11ddaa",
           foreground: "#eeeeee",
         },
+        secondary: {
+          DEFAULT: "#006fee",
+          foreground: "#eeeeee",
+        },
       },
     },
   },

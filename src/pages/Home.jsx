@@ -11,7 +11,9 @@ import {
 } from "@nextui-org/react";
 import { TagCloud } from "@frank-mayer/react-tag-cloud";
 
-import { FaGithub, FaInstagram, FaTelegram } from "react-icons/fa";
+import { FaInstagram } from "react-icons/fa";
+import { FiGithub } from "react-icons/fi";
+import { PiTelegramLogo } from "react-icons/pi";
 
 //Todo : 이쁘게 디자인하기
 
@@ -19,7 +21,7 @@ function Home() {
   return (
     <>
       <div className="flex justify-center">
-        <Card className="my-10 max-w-[400px]">
+        <Card className="max-w-[400px]">
           <CardHeader className="flex gap-3">
             <Image
               alt="nextui logo"
@@ -35,7 +37,7 @@ function Home() {
           </CardHeader>
           <Divider />
           <CardBody>
-            <div className="flex flex-col">
+            <div className="flex flex-col gap-[30px]">
               <p className="break-keep">
                 안녕하세요 저는 풀스택 개발자를 꿈꾸는 프론트 개발자 홍연우
                 입니다.
@@ -48,7 +50,7 @@ function Home() {
                   className="text-[28px] hover:cursor-pointer hover:text-primary"
                   href="https://github.com/Just0neMoment"
                 >
-                  <FaGithub />
+                  <FiGithub />
                 </Link>
 
                 <Link
@@ -66,7 +68,7 @@ function Home() {
                   className="text-[28px] hover:cursor-pointer hover:text-primary"
                   href="https://t.me/justOneM0ment"
                 >
-                  <FaTelegram />
+                  <PiTelegramLogo />
                 </Link>
               </div>
 

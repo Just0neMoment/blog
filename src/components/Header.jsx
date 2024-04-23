@@ -55,7 +55,7 @@ function Header() {
   };
 
   return (
-    <>
+    <div className="mb-10">
       <ToastContainer
         position="bottom-right"
         theme={localStorage.getItem("Theme")}
@@ -114,10 +114,17 @@ function Header() {
           {isLoginStat ? (
             <Dropdown>
               <DropdownTrigger>
-                <Avatar name="Junior" className="hover:cursor-pointer hover:scale-[0.9]" />
+                <Avatar
+                  name="Junior"
+                  className="hover:scale-[0.9] hover:cursor-pointer"
+                />
               </DropdownTrigger>
               <DropdownMenu aria-label="Static Actions">
-                <DropdownItem key="profile">프로필 관리</DropdownItem>
+                <DropdownItem key="profile">
+                  <Link to="/Profile" className="block h-full w-full">
+                    프로필 관리
+                  </Link>
+                </DropdownItem>
                 <DropdownItem
                   key="logout"
                   className="text-danger"
@@ -154,7 +161,7 @@ function Header() {
           )}
         </NavbarContent>
       </Navbar>
-    </>
+    </div>
   );
 }
 
