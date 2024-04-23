@@ -7,6 +7,8 @@ import "react-image-crop/dist/ReactCrop.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+import { CiImageOn } from "react-icons/ci";
+
 import {
   Card,
   CardHeader,
@@ -23,6 +25,7 @@ import {
   ModalBody,
   ModalFooter,
   useDisclosure,
+  Slider,
 } from "@nextui-org/react";
 
 function Profile() {
@@ -48,11 +51,11 @@ function Profile() {
 
   const [crop, setCrop] = useState({
     aspect: 1 / 1,
-    x: 0,
-    y: 0,
+    x: 50,
+    y: 50,
     width: 100,
     height: 100,
-    unit: "%",
+    unit: "px",
   });
 
   const [completedCrop, setCompletedCrop] = useState({
@@ -61,7 +64,7 @@ function Profile() {
     y: 0,
     width: 100,
     height: 100,
-    unit: "%",
+    unit: "px",
   });
 
   return (
@@ -82,23 +85,45 @@ function Profile() {
               </ModalHeader>
               <ModalBody>
                 {selectedImage ? (
-                  <ReactCrop
-                    crop={crop}
-                    onChange={(crop) => setCrop(crop)}
-                    circularCrop
-                  >
-                    <img
-                      src={URL.createObjectURL(selectedImage)}
-                      style={{ transform: `scale(${scale})` }}
+                  <>
+                    <ReactCrop
+                      crop={crop}
+                      onChange={(crop) => setCrop(crop)}
+                      onComplete={(crop) => setCompletedCrop(crop)}
+                      circularCrop
+                      locked
+                    >
+                      <img
+                        src={URL.createObjectURL(selectedImage)}
+                        style={{ transform: `scale(${scale})` }}
+                      />
+                    </ReactCrop>
+                    <Slider
+                      color="primary"
+                      step={0.01}
+                      maxValue={2}
+                      minValue={0}
+                      fillOffset={1}
+                      defaultValue={1}
+                      aria-label="Temperature"
+                      className="max-w-md"
+                      onChange={(value) => setScale(value)}
                     />
-                  </ReactCrop>
+                    <p>{scale}</p>
+                  </>
                 ) : (
-                  <div {...getRootProps()} className="dropzone">
+                  <div
+                    {...getRootProps()}
+                    className="dropzone rounded-lg border border-dashed border-[#dddddd] py-10 text-center hover:cursor-pointer"
+                  >
                     <input {...getInputProps()} />
                     {isDragActive ? null : (
-                      <p>
-                        Drag 'n' drop some files here, or click to select files
-                      </p>
+                      <div className="flex flex-col gap-3">
+                        <p>
+                          <CiImageOn className="text-5xl flex m-auto" />
+                        </p>
+                        <p className="text-[15px]">드래그 또는 클릭하여 이미지를 업로드하세요.</p>
+                      </div>
                     )}
                   </div>
                 )}
