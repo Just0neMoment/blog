@@ -26,9 +26,9 @@ function App() {
     document.querySelector("html").classList.add(Theme);
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        setIsLoginStat(true);
+        return setIsLoginStat(true);
       } else {
-        setIsLoginStat(false);
+        return setIsLoginStat(false);
       }
     });
   }, []);
