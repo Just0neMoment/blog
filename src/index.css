@@ -15,3 +15,12 @@ html {
 .font-mono {
   font-family: Pretendard !important;
 }
+
+.reactEasyCrop_Contain,
+.reactEasyCrop_Container {
+  position: initial !important;
+}
+
+.reactEasyCrop_CropArea {
+  box-shadow: none !important;
+}
