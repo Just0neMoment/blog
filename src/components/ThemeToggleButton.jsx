@@ -10,10 +10,10 @@ function ThemeToggleButton() {
     const enabledDarkMode = htmlEl.classList.contains("dark");
     if (enabledDarkMode) {
       htmlEl.classList.remove("dark");
-      localStorage.setItem('Theme', 'light');
+      localStorage.setItem("Theme", "light");
     } else {
       htmlEl.classList.add("dark");
-      localStorage.setItem('Theme', 'dark');
+      localStorage.setItem("Theme", "dark");
     }
   }
 

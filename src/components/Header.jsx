@@ -1,11 +1,11 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import { useRecoilState } from "recoil";
-import { isLoginStatState } from "../store.js";
+import { isLoginStatState, userProfileImgState } from "../store.js";
 
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase/firebase.js";
@@ -30,6 +30,7 @@ import ThemeToggleButton from "./ThemeToggleButton.jsx";
 
 function Header() {
   const [isLoginStat, setIsLoginStat] = useRecoilState(isLoginStatState);
+  const [userProfileImg, setUserProfileImg] = useRecoilState(userProfileImgState);
 
   const location = useLocation();
 
@@ -56,13 +57,6 @@ function Header() {
 
   return (
     <div className="mb-10">
-      <ToastContainer
-        position="bottom-right"
-        theme={localStorage.getItem("Theme")}
-        autoClose={3000}
-        pauseOnFocusLoss={false}
-        pauseOnHover={false}
-      />
       <LoginModal
         onLogin={onLogin}
         isLogin={isLogin}
@@ -115,7 +109,7 @@ function Header() {
             <Dropdown>
               <DropdownTrigger>
                 <Avatar
-                  name="Junior"
+                  src={userProfileImg}
                   className="hover:scale-[0.9] hover:cursor-pointer"
                 />
               </DropdownTrigger>
