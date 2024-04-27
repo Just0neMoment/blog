@@ -22,8 +22,7 @@ import NotFound from "./pages/NotFound.jsx";
 import PostDetail from "./pages/post/PostDetail.jsx";
 import Profile from "./pages/Profile.jsx";
 import NewPost from "./pages/post/NewPost.jsx";
-import { doc, getDoc, getDocs } from "firebase/firestore";
-import { set } from "firebase/database";
+import { doc, getDoc } from "firebase/firestore";
 
 // todo : Header.jsx / ThemeToggleButton.jsx / SignupModal.jsx
 //        post 기능 구현하기

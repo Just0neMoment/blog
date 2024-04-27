@@ -187,7 +187,7 @@ function Profile() {
           });
         })
         .catch((error) => {
-          return toast.error("프로필 이미지를 등록해주세요.");
+          return toast.error("프로필 이미지를 불러오지 못했습니다.");
         });
 
       toast.success("이미지 업로드 성공!");
