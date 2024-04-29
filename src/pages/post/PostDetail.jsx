@@ -46,9 +46,7 @@ function PostDetail() {
       <Card className="mt-16">
         <CardBody>
           <div className="flex">
-            <div>
               <Avatar name="Yeonwoo" />
-            </div>
             <div>
               <form>
                 <input
