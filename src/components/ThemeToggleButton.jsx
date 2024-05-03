@@ -2,7 +2,13 @@ import React from "react";
 
 import { Switch } from "@nextui-org/react";
 
+import { useRecoilState } from "recoil";
+import { themeState } from "../store";
+
 function ThemeToggleButton() {
+
+  const [theme, setTheme] = useRecoilState(themeState);
+
   function ThemeToggle() {
     const htmlEl = document.querySelector("html");
     if (!htmlEl) return;
@@ -11,9 +17,11 @@ function ThemeToggleButton() {
     if (enabledDarkMode) {
       htmlEl.classList.remove("dark");
       localStorage.setItem("Theme", "light");
+      setTheme("light");
     } else {
       htmlEl.classList.add("dark");
       localStorage.setItem("Theme", "dark");
+      setTheme("dark");
     }
   }
 

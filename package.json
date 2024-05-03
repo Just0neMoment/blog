@@ -12,6 +12,7 @@
   "dependencies": {
     "@frank-mayer/react-tag-cloud": "^1.2.1",
     "@nextui-org/react": "^2.3.5",
+    "@uiw/react-md-editor": "^4.0.4",
     "firebase": "^10.11.0",
     "framer-motion": "^11.1.5",
     "react": "^18.2.0",

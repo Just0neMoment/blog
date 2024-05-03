@@ -40,7 +40,7 @@ function Home() {
             <div className="flex flex-col gap-[30px]">
               <p className="break-keep">
                 안녕하세요 저는 풀스택 개발자를 꿈꾸는 프론트 개발자 홍연우
-                입니다.
+                입니다. 토스 가보자 .
               </p>
 
               <div className="my-3.5 flex gap-2">
@@ -106,6 +106,11 @@ function Home() {
                     src="https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB"
                   />
                   <Image
+                    alt="Recoil"
+                    radius="sm"
+                    src="https://camo.githubusercontent.com/ae2a7215898a45a41d33b8151b11558ff897782986352a47d6b42b35089593f5/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f5265636f696c2d2532333030303030302e7376673f7374796c653d666f722d7468652d6261646765266c6f676f3d7265636f696c266c6f676f436f6c6f723d7768697465"
+                  />
+                  <Image
                     alt="Redux"
                     radius="sm"
                     src="https://img.shields.io/badge/redux-%23593d88.svg?style=for-the-badge&logo=redux&logoColor=white"
@@ -113,7 +118,7 @@ function Home() {
                   <Image
                     alt="Firebase"
                     radius="sm"
-                    src="https://img.shields.io/badge/firebase-a08021?style=for-the-badge&logo=firebase&logoColor=ffcd34"
+                    src="https://camo.githubusercontent.com/253f4842177fe68f329fc1713537477b92aca3f29edf52b1dbced68ae3262eed/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f66697265626173652d2532333033394245352e7376673f7374796c653d666f722d7468652d6261646765266c6f676f3d6669726562617365"
                   />
                   <Image
                     alt="Figma"
@@ -157,7 +162,8 @@ function Home() {
             "Recoil",
             "Firebase",
             "Figma",
-            "Vultr(IIS)",
+            "Vultr",
+            "IIS",
           ]}
         </TagCloud>
       </div>
