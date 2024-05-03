@@ -7,6 +7,8 @@ import {
   userProfileImgState,
   userEmailState,
   userNicknameState,
+  userUidState,
+  themeState,
 } from "./store.js";
 import { auth, db } from "./firebase/firebase.js";
 import { onAuthStateChanged } from "firebase/auth";
@@ -23,6 +25,7 @@ import PostDetail from "./pages/post/PostDetail.jsx";
 import Profile from "./pages/Profile.jsx";
 import NewPost from "./pages/post/NewPost.jsx";
 import { doc, getDoc } from "firebase/firestore";
+import { set } from "firebase/database";
 
 // todo : Header.jsx / ThemeToggleButton.jsx / SignupModal.jsx
 //        post 기능 구현하기
@@ -33,6 +36,9 @@ function App() {
     useRecoilState(userProfileImgState);
   const [userEmail, setUserEmail] = useRecoilState(userEmailState);
   const [userNickname, setUserNickname] = useRecoilState(userNicknameState);
+  const [userUid, setUserUid] = useRecoilState(userUidState);
+  const [theme, setTheme] = useRecoilState(themeState);
+
 
   const getUserInfo = async () => {
     try {
@@ -53,6 +59,8 @@ function App() {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         setIsLoginStat(true);
+        setUserUid(auth.currentUser.uid)
+        setTheme(localStorage.getItem("Theme"));
         getUserInfo();
       } else {
         return setIsLoginStat(false);
@@ -73,7 +81,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/Post" element={<Post />} />
-        <Route path="/Post/:id" element={<PostDetail />} />
+        <Route path="/Post/TIL/:id" element={<PostDetail />} />
         <Route path="/Post/NewPost" element={<NewPost />} />
 
         <Route path="/Profile" element={<Profile />} />

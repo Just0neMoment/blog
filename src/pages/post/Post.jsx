@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 import {
   Table,
@@ -7,15 +8,26 @@ import {
   TableBody,
   TableRow,
   TableCell,
+  Button,
 } from "@nextui-org/react";
 
 import { IoChatboxEllipsesOutline } from "react-icons/io5";
 import { FaRegHeart } from "react-icons/fa";
+import { TiPencil } from "react-icons/ti";
 
 function Post() {
   return (
     <>
-      <div className="m-auto max-w-[1220px]">
+      <div className="m-auto flex max-w-[1220px] flex-col gap-3">
+        <div className="flex justify-end">
+          <Button
+            color="primary"
+            className="gap-1"
+            startContent={<TiPencil className="text-[18px]" />}
+          >
+            <Link to="/Post/NewPost">글쓰기</Link>
+          </Button>
+        </div>
         <Table aria-label="Example static collection table">
           <TableHeader>
             <TableColumn>Post ID</TableColumn>

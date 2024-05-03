@@ -26,3 +26,15 @@ export const userNicknameState = atom({
   default: "",
   effects_UNSTABLE: [persistAtom],
 });
+
+export const userUidState = atom({
+  key: "userUid",
+  default: "",
+  effects_UNSTABLE: [persistAtom],
+});
+
+export const themeState = atom({
+  key: "Theme",
+  default: "",
+  effects_UNSTABLE: [persistAtom],
+});
