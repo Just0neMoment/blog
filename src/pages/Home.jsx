@@ -27,7 +27,7 @@ function Home() {
               alt="nextui logo"
               height={40}
               radius="sm"
-              src="src/assets/homeCardImg.jpg"
+              src="src\assets\homeCardImg.jpg"
               width={40}
             />
             <div className="flex flex-col">
