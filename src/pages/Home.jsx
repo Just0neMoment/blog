@@ -27,8 +27,7 @@ function Home() {
               alt="nextui logo"
               height={40}
               radius="sm"
-              src="src\assets\homeCardImg.jpg"
-              width={40}
+              src="src/assets/homeCardImg.jpg"              width={40}
             />
             <div className="flex flex-col">
               <p className="text-md">홍연우</p>
