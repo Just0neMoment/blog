@@ -14,7 +14,7 @@ function NewPost() {
   const [userUid, setUserUid] = useRecoilState(userUidState);
 
   const renderSelect = () => {
-    if (userUid === "oTQXVkoPJXNEeWhn8ewf4EiSBnb2") {
+    if (userUid === "mZ6fTnE3wMWDGC8sUwqyr3Z17S93") {
       return (
         <Select label="카테고리를 선택해주세요.">
           <SelectItem key="잡담">잡담</SelectItem>
