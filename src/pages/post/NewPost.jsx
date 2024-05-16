@@ -1,44 +1,102 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
+import { collection, addDoc } from "firebase/firestore";
 
 import MDEditor from "@uiw/react-md-editor";
 
 import { Button, Select, SelectItem, Input } from "@nextui-org/react";
 
+import { db } from "../../firebase/firebase";
+import { toast } from "react-toastify";
+
 import { useRecoilState } from "recoil";
-import { themeState, userUidState } from "../../store";
+import {
+  themeState,
+  userUidState,
+  userProfileImgState,
+  userNicknameState,
+} from "../../store";
 
 function NewPost() {
-  const [value, setValue] = useState("");
+  const [postTitle, setPostTitle] = useState("");
+  const [postContent, setPostContent] = useState("");
+  const [postCategory, setPostCategory] = useState("");
+
   const [theme, setTheme] = useRecoilState(themeState);
   const [userUid, setUserUid] = useRecoilState(userUidState);
+  const [userProfileImg, setUserProfileImg] =
+    useRecoilState(userProfileImgState);
+  const [userNickname, setUserNickname] = useRecoilState(userNicknameState);
+
+  const navigate = useNavigate();
+
+  const handleCategory = (event) => {
+    setPostCategory(event.target.value);
+  };
+
+  const handleTitle = (event) => {
+    setPostTitle(event.target.value);
+  };
 
   const renderSelect = () => {
     if (userUid === "mZ6fTnE3wMWDGC8sUwqyr3Z17S93") {
       return (
-        <Select label="카테고리를 선택해주세요.">
-          <SelectItem key="잡담">잡담</SelectItem>
-          <SelectItem key="TodayILearn">Today I Learn</SelectItem>
-          <SelectItem key="피드백">피드백</SelectItem>
+        <Select label="카테고리를 선택해주세요." onChange={handleCategory}>
+          <SelectItem key="잡담" value="잡담">
+            잡담
+          </SelectItem>
+          <SelectItem key="TodayILearn" value="Today I Learn">
+            Today I Learn
+          </SelectItem>
+          <SelectItem key="피드백" value="피드백">
+            피드백
+          </SelectItem>
         </Select>
       );
     } else {
       return (
-        <Select label="카테고리를 선택해주세요.">
-          <SelectItem key="TodayILearn">피드백</SelectItem>
+        <Select label="카테고리를 선택해주세요." onChange={handleCategory}>
+          <SelectItem key="피드백" value="피드백">
+            피드백
+          </SelectItem>
         </Select>
       );
     }
   };
 
+  const uploadPost = async () => {
+    const post = {
+      title: postTitle,
+      content: postContent,
+      category: postCategory,
+      writerUid: userUid,
+      writerProfileImage: userProfileImg,
+      writer: userNickname,
+      createdAt: new Date(),
+    };
+    try {
+      await addDoc(collection(db, "post"), post);
+      navigate("/Post");
+      return toast.success("게시물이 등록되었습니다.");
+    } catch (error) {
+      console.log(error.message);
+      return toast.error("게시물 등록에 실패했습니다.");
+    }
+  };
+
   return (
-    <>
-      <div className="mx-auto flex max-w-[1280px] flex-col gap-4">
-        <Input type="text" label="제목을 입력해주세요 ." />
+    <div className="px-4">
+      <div className="mx-auto flex max-w-[968px] flex-col gap-4">
+        <Input
+          type="text"
+          label="제목을 입력해주세요 ."
+          onChange={handleTitle}
+        />
         {renderSelect()}
         <MDEditor
-          value={value}
-          onChange={setValue}
+          value={postContent}
+          onChange={setPostContent}
           height={600}
           data-color-mode={theme}
         />
@@ -46,12 +104,12 @@ function NewPost() {
           <Button variant="light" color="danger">
             <Link to="/Post">취소하기</Link>
           </Button>
-          <Button color="primary" variant="ghost">
+          <Button color="primary" variant="ghost" onClick={uploadPost}>
             등록하기
           </Button>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

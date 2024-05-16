@@ -30,7 +30,8 @@ import ThemeToggleButton from "./ThemeToggleButton.jsx";
 
 function Header() {
   const [isLoginStat, setIsLoginStat] = useRecoilState(isLoginStatState);
-  const [userProfileImg, setUserProfileImg] = useRecoilState(userProfileImgState);
+  const [userProfileImg, setUserProfileImg] =
+    useRecoilState(userProfileImgState);
 
   const location = useLocation();
 
