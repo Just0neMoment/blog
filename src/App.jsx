@@ -10,6 +10,8 @@ import {
   userUidState,
   themeState,
 } from "./store.js";
+
+import { doc, getDoc } from "firebase/firestore";
 import { auth, db } from "./firebase/firebase.js";
 import { onAuthStateChanged } from "firebase/auth";
 
@@ -24,10 +26,7 @@ import NotFound from "./pages/NotFound.jsx";
 import PostDetail from "./pages/post/PostDetail.jsx";
 import Profile from "./pages/Profile.jsx";
 import NewPost from "./pages/post/NewPost.jsx";
-import { doc, getDoc } from "firebase/firestore";
-
-// todo : Header.jsx / ThemeToggleButton.jsx / SignupModal.jsx
-//        post 기능 구현하기
+import Edit from "./pages/post/Edit.jsx";
 
 function App() {
   const [isLoginStat, setIsLoginStat] = useRecoilState(isLoginStatState);
@@ -81,6 +80,7 @@ function App() {
         <Route path="/Post" element={<Post />} />
         <Route path="/Post/:docsId" element={<PostDetail />} />
         <Route path="/Post/NewPost" element={<NewPost />} />
+        <Route path="/Post/:docsId/Edit" element={<Edit />} />
 
         <Route path="/Profile" element={<Profile />} />
 
