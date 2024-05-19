@@ -95,8 +95,7 @@ function NewPost() {
       await addDoc(collection(db, "post"), post);
       navigate("/Post");
       return toast.success("게시물이 등록되었습니다.");
-    } catch (error) {
-      console.log(error.message);
+    } catch {
       return toast.error("게시물 등록에 실패했습니다.");
     }
   };
