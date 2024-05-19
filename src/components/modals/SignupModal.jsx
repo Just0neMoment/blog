@@ -23,20 +23,20 @@ function SignupModal(props) {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const handleEmail = (e) => {
-    setEmail(e.target.value);
+  const handleEmail = (event) => {
+    setEmail(event.target.value);
   };
 
-  const handleNickname = (e) => {
-    setNickname(e.target.value);
+  const handleNickname = (event) => {
+    setNickname(event.target.value);
   };
 
-  const handlePassword = (e) => {
-    setPassword(e.target.value);
+  const handlePassword = (event) => {
+    setPassword(event.target.value);
   };
 
-  const handleConfirmPassword = (e) => {
-    setConfirmPassword(e.target.value);
+  const handleConfirmPassword = (event) => {
+    setConfirmPassword(event.target.value);
   };
 
   const emailRegex =
@@ -49,26 +49,26 @@ function SignupModal(props) {
   const validateEmail = (email) => email.match(emailRegex);
   const isInvalidEmail = useMemo(() => {
     if (email === "") return false;
-    return validateEmail(email) ? false : true;
+    return !validateEmail(email);
   }, [email]);
 
   const validateNickname = (nickname) => nickname.match(nicknameRegex);
   const isInvalidNickname = useMemo(() => {
     if (nickname === "") return false;
-    return validateNickname(nickname) ? false : true;
+    return !validateNickname(nickname);
   }, [nickname]);
 
   const validatePassword = (password) => password.match(passwordRegex);
   const isInvalidPassword = useMemo(() => {
     if (password === "") return false;
-    return validatePassword(password) ? false : true;
+    return !validatePassword(password);
   }, [password]);
 
   const validateConfirmPassword = (confirmPassword) =>
     confirmPassword === password;
   const isInvalidConfirmPassword = useMemo(() => {
     if (confirmPassword === "") return false;
-    return validateConfirmPassword(confirmPassword) ? false : true;
+    return !validateConfirmPassword(confirmPassword);
   }, [confirmPassword]);
 
   const onSubmit = async () => {
@@ -90,7 +90,7 @@ function SignupModal(props) {
 
     try {
       await createUserWithEmailAndPassword(auth, email, password);
-      setDoc(doc(db, "userInfo", email), {
+      await setDoc(doc(db, "userInfo", email), {
         email: email,
         nickname: nickname,
         createdAt: new Date(),
