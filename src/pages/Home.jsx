@@ -15,8 +15,6 @@ import { FaInstagram } from "react-icons/fa";
 import { FiGithub } from "react-icons/fi";
 import { PiTelegramLogo } from "react-icons/pi";
 
-//Todo : 이쁘게 디자인하기
-
 function Home() {
   return (
     <>
@@ -27,7 +25,7 @@ function Home() {
               alt="nextui logo"
               height={40}
               radius="sm"
-              src="src/assets/homeCardImg.jpg"
+              src="/homeCardImg.jpg"
               width={40}
             />
             <div className="flex flex-col">

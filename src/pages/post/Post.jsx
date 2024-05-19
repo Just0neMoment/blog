@@ -37,7 +37,7 @@ function Post() {
   }, []);
 
   return (
-    <>
+    <div className="px-4">
       <div className="m-auto flex max-w-[1220px] flex-col gap-3">
         <div className="flex justify-end">
           <Link to="/Post/NewPost">
@@ -85,7 +85,7 @@ function Post() {
           </TableBody>
         </Table>
       </div>
-    </>
+    </div>
   );
 }
 
