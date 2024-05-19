@@ -50,6 +50,8 @@ function Header() {
   const onSignOut = async () => {
     try {
       await signOut(auth);
+      window.location.replace("/");
+      localStorage.removeItem("recoil-persist");
       return toast.success("로그아웃 되었습니다.");
     } catch (error) {
       return toast.error(error.code);

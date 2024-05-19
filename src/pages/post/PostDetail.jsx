@@ -1,18 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 
 import { Card, CardBody, Avatar, Button } from "@nextui-org/react";
 
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, deleteDoc } from "firebase/firestore";
 import { db } from "../../firebase/firebase";
 
 import MDEditor from "@uiw/react-md-editor";
 
 import { useRecoilState } from "recoil";
-import { themeState } from "../../store";
+import { themeState, userUidState } from "../../store";
+import { toast } from "react-toastify";
 
 function PostDetail() {
   const [theme, setTheme] = useRecoilState(themeState);
+  const [userUid, setUserUid] = useRecoilState(userUidState);
 
   const { docsId } = useParams();
   const [post, setPost] = useState(null);
@@ -22,10 +24,22 @@ function PostDetail() {
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
       setPost(docSnap.data());
-      console.log(docSnap.data());
     } else {
-      console.log("No such document!");
+      toast.error("해당 게시글이 존재하지 않습니다.");
     }
+  };
+
+  const deletePost = async () => {
+    if (userUid !== post.writerUid) {
+      return toast.error("게시글 작성자만 삭제할 수 있습니다.");
+    }
+    if (!window.confirm("정말로 삭제하시겠습니까?")) {
+      return;
+    }
+    const docRef = doc(db, "post", docsId);
+    await deleteDoc(docRef);
+    location.replace("/");
+    toast.success("게시글이 삭제되었습니다.");
   };
 
   useEffect(() => {
@@ -61,7 +75,20 @@ function PostDetail() {
             </CardBody>
           </Card>
 
-          <Card className="mt-8">
+          <div className="my-4 flex justify-end gap-2">
+            {userUid === post.writerUid ? (
+              <>
+                <Button color="danger" variant="ghost" onClick={deletePost}>
+                  삭제하기
+                </Button>
+                <Link to={`/Post/${docsId}/Edit`}>
+                  <Button color="primary">수정하기</Button>
+                </Link>
+              </>
+            ) : null}
+          </div>
+
+          <Card>
             <CardBody data-color-mode={theme}>
               <MDEditor.Markdown
                 style={{

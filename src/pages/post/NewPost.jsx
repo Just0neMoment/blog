@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import { collection, addDoc } from "firebase/firestore";
@@ -30,6 +30,11 @@ function NewPost() {
   const [userNickname, setUserNickname] = useRecoilState(userNicknameState);
 
   const navigate = useNavigate();
+
+  if (!userUid) {
+    window.confirm("로그인이 필요합니다.");
+    location.replace("/");
+  }
 
   const handleCategory = (event) => {
     setPostCategory(event.target.value);
@@ -66,6 +71,17 @@ function NewPost() {
   };
 
   const uploadPost = async () => {
+    if (!postTitle) {
+      return toast.error("제목을 입력해주세요.");
+    }
+
+    if (!postCategory) {
+      return toast.error("카테고리를 선택해주세요.");
+    }
+
+    if (!postContent) {
+      return toast.error("내용을 입력해주세요.");
+    }
     const post = {
       title: postTitle,
       content: postContent,
@@ -79,8 +95,7 @@ function NewPost() {
       await addDoc(collection(db, "post"), post);
       navigate("/Post");
       return toast.success("게시물이 등록되었습니다.");
-    } catch (error) {
-      console.log(error.message);
+    } catch {
       return toast.error("게시물 등록에 실패했습니다.");
     }
   };

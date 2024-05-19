@@ -37,7 +37,7 @@ function Post() {
   }, []);
 
   return (
-    <>
+    <div className="px-4">
       <div className="m-auto flex max-w-[1220px] flex-col gap-3">
         <div className="flex justify-end">
           <Link to="/Post/NewPost">
@@ -52,6 +52,7 @@ function Post() {
         </div>
         <Table aria-label="Example static collection table">
           <TableHeader>
+            <TableColumn>Category</TableColumn>
             <TableColumn>Title</TableColumn>
             <TableColumn>Username</TableColumn>
             <TableColumn>작성일</TableColumn>
@@ -62,8 +63,9 @@ function Post() {
           <TableBody>
             {currentItems.map((item) => (
               <TableRow key={item.id}>
+                <TableCell>{item.category}</TableCell>
                 <TableCell>
-                  <Link to={`/Post/${item.id}`}>{item.title}</Link>
+                  <Link className="hover:text-primary" to={`/Post/${item.id}`}>{item.title}</Link>
                 </TableCell>
                 <TableCell>{item.writer}</TableCell>
                 <TableCell>{item.createdAt}</TableCell>
@@ -83,7 +85,7 @@ function Post() {
           </TableBody>
         </Table>
       </div>
-    </>
+    </div>
   );
 }
 

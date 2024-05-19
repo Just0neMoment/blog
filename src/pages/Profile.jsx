@@ -163,7 +163,6 @@ function Profile() {
   }
 
   const uploadCroppedImage = async () => {
-
     if (!auth.currentUser) {
       return toast.error("인증되지 않은 사용자입니다.");
     }
@@ -180,19 +179,17 @@ function Profile() {
       );
       await uploadString(storageRef, croppedImage, "data_url");
 
-      getDownloadURL(storageRef)
-        .then((url) => {
-          updateDoc(doc(db, "userInfo", auth.currentUser.email), {
-            profileImg: url,
-          });
-        })
-        .catch((error) => {
-          return toast.error("프로필 이미지를 불러오지 못했습니다.");
+      try {
+        const url = await getDownloadURL(storageRef);
+        await updateDoc(doc(db, "userInfo", auth.currentUser.email), {
+          profileImg: url,
         });
-
-      toast.success("이미지 업로드 성공!");
-    } catch (error) {
-      console.error("이미지 업로드 실패 에러: ", error);
+        toast.success("이미지 업로드 성공!");
+        window.location.reload();
+      } catch {
+        toast.error("프로필 이미지를 불러오지 못했습니다.");
+      }
+    } catch {
       toast.error("이미지 업로드에 실패했습니다.");
     }
   };
