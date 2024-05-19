@@ -25,7 +25,7 @@ function PostDetail() {
     if (docSnap.exists()) {
       setPost(docSnap.data());
     } else {
-      toast.error("해당 게시글이 존재하지 않습니다.");
+      toast.error("게시글을 불러오는데 실패했습니다.");
     }
   };
 
