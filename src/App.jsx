@@ -44,8 +44,7 @@ function App() {
         setUserNickname(doc.data().nickname);
         setUserProfileImg(doc.data().profileImg);
       });
-    } catch (error) {
-      console.log(error.message);
+    } catch {
       return toast.error("유저 정보를 불러오지 못했습니다.");
     }
   };

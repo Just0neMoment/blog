@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 
-import { Card, CardBody, Avatar, Button, user } from "@nextui-org/react";
+import { Card, CardBody, Avatar, Button } from "@nextui-org/react";
 
 import { doc, getDoc, deleteDoc } from "firebase/firestore";
 import { db } from "../../firebase/firebase";
@@ -81,7 +81,9 @@ function PostDetail() {
                 <Button color="danger" variant="ghost" onClick={deletePost}>
                   삭제하기
                 </Button>
-                <Button color="primary">수정하기</Button>
+                <Link to={`/Post/${docsId}/Edit`}>
+                  <Button color="primary">수정하기</Button>
+                </Link>
               </>
             ) : null}
           </div>
