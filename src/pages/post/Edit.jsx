@@ -23,6 +23,7 @@ function NewPost() {
   const [postTitle, setPostTitle] = useState("");
   const [postContent, setPostContent] = useState("");
   const [postCategory, setPostCategory] = useState("");
+  const [writer, setWriter] = useState("");
 
   const [theme, setTheme] = useRecoilState(themeState);
   const [userUid, setUserUid] = useRecoilState(userUidState);
@@ -35,6 +36,11 @@ function NewPost() {
 
   if (!userUid) {
     window.confirm("로그인이 필요합니다.");
+    location.replace(`/Post/${docsId}`);
+  }
+
+  if (userUid !== writer) {
+    window.confirm("작성자만 수정할 수 있습니다.");
     location.replace(`/Post/${docsId}`);
   }
 
@@ -119,6 +125,7 @@ function NewPost() {
       setPostTitle(docSnap.data().title);
       setPostContent(docSnap.data().content);
       setPostCategory(docSnap.data().category);
+      setWriter(docSnap.data().writerUid);
     } else {
       toast.error("해당 게시글이 존재하지 않습니다.");
     }
