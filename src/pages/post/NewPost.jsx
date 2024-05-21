@@ -51,7 +51,7 @@ function NewPost() {
           <SelectItem key="잡담" value="잡담">
             잡담
           </SelectItem>
-          <SelectItem key="TodayILearn" value="Today I Learn">
+          <SelectItem key="Today I Learn" value="Today I Learn">
             Today I Learn
           </SelectItem>
           <SelectItem key="피드백" value="피드백">

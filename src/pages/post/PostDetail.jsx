@@ -13,6 +13,7 @@ import { themeState, userUidState } from "../../store";
 import { toast } from "react-toastify";
 
 import { FaRegHeart, FaHeart } from "react-icons/fa";
+import Loading from "../../components/Loading";
 
 function PostDetail() {
   const [theme, setTheme] = useRecoilState(themeState);
@@ -78,9 +79,23 @@ function PostDetail() {
     }
   };
 
+  const plusView = async () => {
+    const docRef = doc(db, "post", docsId);
+    await updateDoc(docRef, {
+      views: post.views + 1,
+    });
+  };
+
   useEffect(() => {
-    getPostDetail();
+    const fetchData = async () => {
+      await getPostDetail();
+    };
+    fetchData();
   }, []);
+
+  useEffect(() => {
+    plusView();
+  }, [post]);
 
   return (
     <div className="m-auto max-w-[986px]">
@@ -96,12 +111,20 @@ function PostDetail() {
                     <p>{post.writer}</p>
                     <p>|</p>
                     <p>
-                      {new Date(post.createdAt.seconds * 1000).toLocaleString()}
+                      {post.createdAt.toDate().toLocaleDateString("ko-KR", {
+                        year: "numeric",
+                        month: "2-digit",
+                        day: "2-digit",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        second: "2-digit",
+                        hour12: false,
+                      })}
                     </p>
                   </div>
                 </div>
-                <div className="absolute right-3.5 flex gap-2 text-[15px]">
-                  <p>조회수 123</p>
+                <div className="absolute right-3.5 flex gap-2 text-[14px]">
+                  <p>조회수 {post.views}</p>
                   <p>·</p>
                   <p>추천 {post.likers.length}</p>
                   <p>·</p>
@@ -135,7 +158,7 @@ function PostDetail() {
                 source={post.content}
               />
               <Divider />
-              <div className="flex justify-end gap-1.5 mt-3">
+              <div className="mt-3 flex justify-end gap-1.5">
                 {post.likers.includes(userUid) ? (
                   <button onClick={unLikePost}>
                     <FaHeart color="#11ddaa" className="text-2xl" />
@@ -149,52 +172,52 @@ function PostDetail() {
               </div>
             </CardBody>
           </Card>
+
+          <Card className="mt-16">
+            <CardBody>
+              <div className="flex">
+                <Avatar name="Yeonwoo" />
+                <div>
+                  <form>
+                    <input
+                      type="text"
+                      className="w-full rounded-lg border-none p-3"
+                      placeholder="댓글을 입력하세요."
+                    />
+                  </form>
+                  <div className="w-full">
+                    <div className="flex justify-end">
+                      <Button color="secondary">댓글 작성</Button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </CardBody>
+          </Card>
+
+          <div className="mt-10">
+            <div className="flex items-center justify-between">
+              <div className="flex gap-3.5">
+                <Avatar name="Yeonwoo" />
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p>Nickname</p>
+                    <div className="text-sm text-[#8d8d8d]">
+                      <p>2024/12/22 02:45:12</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div>좋아요 버튼</div>
+            </div>
+            <div>
+              <p>내용</p>
+            </div>
+          </div>
         </>
       ) : (
-        <p>Loading...</p>
+        <Loading />
       )}
-
-      <Card className="mt-16">
-        <CardBody>
-          <div className="flex">
-            <Avatar name="Yeonwoo" />
-            <div>
-              <form>
-                <input
-                  type="text"
-                  className="w-full rounded-lg border-none p-3"
-                  placeholder="댓글을 입력하세요."
-                />
-              </form>
-              <div className="w-full">
-                <div className="flex justify-end">
-                  <Button color="secondary">댓글 작성</Button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </CardBody>
-      </Card>
-
-      <div className="mt-10">
-        <div className="flex items-center justify-between">
-          <div className="flex gap-3.5">
-            <Avatar name="Yeonwoo" />
-            <div className="flex items-center justify-between">
-              <div>
-                <p>Nickname</p>
-                <div className="text-sm text-[#8d8d8d]">
-                  <p>2024/12/22 02:45:12</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div>좋아요 버튼</div>
-        </div>
-        <div>
-          <p>내용</p>
-        </div>
-      </div>
     </div>
   );
 }
