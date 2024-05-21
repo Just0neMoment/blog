@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 
-import { Card, CardBody, Avatar, Button } from "@nextui-org/react";
+import { Card, CardBody, Avatar, Button, Divider } from "@nextui-org/react";
 
-import { doc, getDoc, deleteDoc } from "firebase/firestore";
+import { doc, getDoc, deleteDoc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase/firebase";
 
 import MDEditor from "@uiw/react-md-editor";
@@ -11,6 +11,8 @@ import MDEditor from "@uiw/react-md-editor";
 import { useRecoilState } from "recoil";
 import { themeState, userUidState } from "../../store";
 import { toast } from "react-toastify";
+
+import { FaRegHeart, FaHeart } from "react-icons/fa";
 
 function PostDetail() {
   const [theme, setTheme] = useRecoilState(themeState);
@@ -42,6 +44,40 @@ function PostDetail() {
     toast.success("게시글이 삭제되었습니다.");
   };
 
+  const likePost = async () => {
+    if (post.likers.includes(userUid)) {
+      return toast.error("이미 좋아요를 누르셨습니다.");
+    }
+
+    try {
+      const docRef = doc(db, "post", docsId);
+      await updateDoc(docRef, {
+        likers: [...post.likers, userUid],
+      });
+      getPostDetail();
+      return toast.success("좋아요가 반영되었습니다.");
+    } catch {
+      return toast.error("좋아요 반영에 실패했습니다.");
+    }
+  };
+
+  const unLikePost = async () => {
+    if (!post.likers.includes(userUid)) {
+      return toast.error("좋아요를 누르지 않으셨습니다.");
+    }
+
+    try {
+      const docRef = doc(db, "post", docsId);
+      await updateDoc(docRef, {
+        likers: post.likers.filter((liker) => liker !== userUid),
+      });
+      getPostDetail();
+      return toast.success("좋아요가 취소되었습니다.");
+    } catch {
+      return toast.error("좋아요 취소에 실패했습니다.");
+    }
+  };
+
   useEffect(() => {
     getPostDetail();
   }, []);
@@ -67,7 +103,7 @@ function PostDetail() {
                 <div className="absolute right-3.5 flex gap-2 text-[15px]">
                   <p>조회수 123</p>
                   <p>·</p>
-                  <p>추천 0</p>
+                  <p>추천 {post.likers.length}</p>
                   <p>·</p>
                   <p>댓글 0</p>
                 </div>
@@ -98,6 +134,19 @@ function PostDetail() {
                 }}
                 source={post.content}
               />
+              <Divider />
+              <div className="flex justify-end gap-1.5 mt-3">
+                {post.likers.includes(userUid) ? (
+                  <button onClick={unLikePost}>
+                    <FaHeart color="#11ddaa" className="text-2xl" />
+                  </button>
+                ) : (
+                  <button onClick={likePost}>
+                    <FaRegHeart color="#11ddaa" className="text-2xl" />
+                  </button>
+                )}
+                {post.likers.length}
+              </div>
             </CardBody>
           </Card>
         </>
