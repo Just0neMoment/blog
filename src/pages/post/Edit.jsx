@@ -1,15 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-
 import { updateDoc, getDoc, doc } from "firebase/firestore";
-
 import MDEditor from "@uiw/react-md-editor";
-
 import { Button, Select, SelectItem, Input } from "@nextui-org/react";
-
 import { db } from "../../firebase/firebase";
 import { toast } from "react-toastify";
-
 import { useRecoilState } from "recoil";
 import {
   themeState,
@@ -24,6 +19,7 @@ function NewPost() {
   const [postContent, setPostContent] = useState("");
   const [postCategory, setPostCategory] = useState("");
   const [writer, setWriter] = useState("");
+  const [loading, setLoading] = useState(true);
 
   const [theme, setTheme] = useRecoilState(themeState);
   const [userUid, setUserUid] = useRecoilState(userUidState);
@@ -34,15 +30,36 @@ function NewPost() {
   const navigate = useNavigate();
   const { docsId } = useParams();
 
-  if (!userUid) {
-    window.confirm("로그인이 필요합니다.");
-    location.replace(`/Post/${docsId}`);
-  }
+  useEffect(() => {
+    if (!userUid) {
+      window.confirm("로그인이 필요합니다.");
+      location.replace(`/Post/${docsId}`);
+    }
 
-  if (userUid !== writer) {
-    window.confirm("작성자만 수정할 수 있습니다.");
-    location.replace(`/Post/${docsId}`);
-  }
+    const getPostDetail = async () => {
+      const docRef = doc(db, "post", docsId);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        setPost(docSnap.data());
+        setPostTitle(docSnap.data().title);
+        setPostContent(docSnap.data().content);
+        setPostCategory(docSnap.data().category);
+        setWriter(docSnap.data().writerUid);
+      } else {
+        toast.error("해당 게시글이 존재하지 않습니다.");
+      }
+      setLoading(false);
+    };
+
+    getPostDetail();
+  }, [docsId, userUid]);
+
+  useEffect(() => {
+    if (!loading && userUid !== writer) {
+      window.confirm("작성자만 수정할 수 있습니다.");
+      location.replace(`/Post/${docsId}`);
+    }
+  }, [loading, userUid, writer, docsId]);
 
   const handleCategory = (event) => {
     setPostCategory(event.target.value);
@@ -98,11 +115,6 @@ function NewPost() {
     if (!postContent) {
       return toast.error("내용을 입력해주세요.");
     }
-    const post = {
-      title: postTitle,
-      content: postContent,
-      category: postCategory,
-    };
     try {
       const docRef = doc(db, "post", docsId);
       await updateDoc(docRef, {
@@ -117,30 +129,12 @@ function NewPost() {
     }
   };
 
-  const getPostDetail = async () => {
-    const docRef = doc(db, "post", docsId);
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-      setPost(docSnap.data());
-      setPostTitle(docSnap.data().title);
-      setPostContent(docSnap.data().content);
-      setPostCategory(docSnap.data().category);
-      setWriter(docSnap.data().writerUid);
-    } else {
-      toast.error("해당 게시글이 존재하지 않습니다.");
-    }
-  };
-
-  useEffect(() => {
-    getPostDetail();
-  }, []);
-
   return (
     <div className="px-4">
       <div className="mx-auto flex max-w-[968px] flex-col gap-4">
         <Input
           type="text"
-          label="제목을 입력해주세요 ."
+          label="제목을 입력해주세요."
           value={postTitle}
           onChange={handleTitle}
         />

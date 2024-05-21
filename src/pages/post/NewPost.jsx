@@ -90,6 +90,7 @@ function NewPost() {
       writerProfileImage: userProfileImg,
       writer: userNickname,
       createdAt: new Date(),
+      likers: [],
     };
     try {
       await addDoc(collection(db, "post"), post);
