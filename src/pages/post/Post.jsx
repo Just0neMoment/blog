@@ -30,7 +30,15 @@ function Post() {
     const newData = querySnapshot.docs.map((doc) => ({
       ...doc.data(),
       id: doc.id,
-      createdAt: doc.data().createdAt.toDate().toLocaleDateString(),
+      createdAt: doc.data().createdAt.toDate().toLocaleDateString("ko-KR", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: false,
+      }),
     }));
     setCurrentItems(newData);
     setLoading(false);

@@ -14,6 +14,8 @@ import { toast } from "react-toastify";
 
 import { FaRegHeart, FaHeart } from "react-icons/fa";
 import Loading from "../../components/Loading";
+import UploadComment from "../../components/UploadComment";
+import Comments from "../../components/comments";
 
 function PostDetail() {
   const [theme, setTheme] = useRecoilState(themeState);
@@ -94,7 +96,9 @@ function PostDetail() {
   }, []);
 
   useEffect(() => {
-    plusView();
+    if (post) {
+      plusView();
+    }
   }, [post]);
 
   return (
@@ -173,47 +177,8 @@ function PostDetail() {
             </CardBody>
           </Card>
 
-          <Card className="mt-16">
-            <CardBody>
-              <div className="flex">
-                <Avatar name="Yeonwoo" />
-                <div>
-                  <form>
-                    <input
-                      type="text"
-                      className="w-full rounded-lg border-none p-3"
-                      placeholder="댓글을 입력하세요."
-                    />
-                  </form>
-                  <div className="w-full">
-                    <div className="flex justify-end">
-                      <Button color="secondary">댓글 작성</Button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </CardBody>
-          </Card>
-
-          <div className="mt-10">
-            <div className="flex items-center justify-between">
-              <div className="flex gap-3.5">
-                <Avatar name="Yeonwoo" />
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p>Nickname</p>
-                    <div className="text-sm text-[#8d8d8d]">
-                      <p>2024/12/22 02:45:12</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div>좋아요 버튼</div>
-            </div>
-            <div>
-              <p>내용</p>
-            </div>
-          </div>
+          <UploadComment />
+          <Comments />
         </>
       ) : (
         <Loading />
