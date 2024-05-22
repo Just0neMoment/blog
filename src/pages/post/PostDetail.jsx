@@ -14,7 +14,6 @@ import { toast } from "react-toastify";
 
 import { FaRegHeart, FaHeart } from "react-icons/fa";
 import Loading from "../../components/Loading";
-import UploadComment from "../../components/UploadComment";
 import Comments from "../../components/comments";
 
 function PostDetail() {
@@ -177,7 +176,6 @@ function PostDetail() {
             </CardBody>
           </Card>
 
-          <UploadComment />
           <Comments />
         </>
       ) : (
